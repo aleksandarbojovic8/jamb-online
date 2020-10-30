@@ -4,9 +4,21 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import { Provider } from 'react-redux';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import store from './store/configureStore';
+
+const Root = ({ store }) => (
+  <Provider store={store}>
+    <Router>
+      <Route path="/" component={App} />
+    </Router>
+  </Provider>
+);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Root store={store} />
   </React.StrictMode>,
   document.getElementById('root')
 );

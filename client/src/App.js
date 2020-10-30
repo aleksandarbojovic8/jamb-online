@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import { connect } from 'react-redux';
+import { sayHello } from './actions/functions';
 import './App.css';
 
-function App() {
+function App(props) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>{props.message}</div>
+      <button onClick={() => props.sayHello()}>Button</button>
     </div>
   );
 }
 
-export default App;
+const mapStateToProps = state => {
+  const { message } = state.hello;
+  return {
+    message
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return { sayHello };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps())(App);
