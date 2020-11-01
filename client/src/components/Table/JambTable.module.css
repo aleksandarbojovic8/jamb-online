@@ -1,0 +1,13 @@
+.tableContainer {
+  width: 75vw;
+  height: 75vh;
+  display: grid;
+  grid-template-columns: 2fr repeat(10, 1fr) 2fr;
+}
+
+.column {
+  display: grid;
+  grid-template-rows: repeat(17, 1fr);
+  justify-items: center;
+  align-items: center;
+}
