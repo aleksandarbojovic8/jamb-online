@@ -173,7 +173,11 @@ export default function ColumnTemplate(props) {
           <div
             id={val}
             key={val}
-            onClick={fillField}
+            onClick={e => {
+              if (enabled) {
+                fillField(e);
+              }
+            }}
             className={`${styles.field} ${
               enabled ? styles.nextField : styles.fieldDisabled
             }`}
