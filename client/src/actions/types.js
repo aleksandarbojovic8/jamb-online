@@ -10,3 +10,6 @@ export const FROM_MIDDLE = 'FROM_MIDDLE';
 export const TO_MIDDLE = 'TO_MIDDLE';
 export const LAST_COL = 'LAST_COL';
 export const MAX_COL = 'MAX_COL';
+
+export const ROLL_DICES = 'ROLL_DICES';
+export const SELECT_DICE = 'SELECT_DICE';

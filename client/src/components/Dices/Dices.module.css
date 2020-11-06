@@ -2,3 +2,15 @@
   display: flex;
   width: 80%;
 }
+
+.rollDiceButton {
+  background-color: #010b0b;
+  color: white;
+  padding: 1em 1.5em;
+  text-decoration: none;
+  text-align: center;
+}
+.rollDiceButton:hover {
+  background-color: #acacac;
+  cursor: pointer;
+}
