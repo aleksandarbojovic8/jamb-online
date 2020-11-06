@@ -2,7 +2,7 @@
   width: 75vw;
   height: 75vh;
   display: grid;
-  grid-template-columns: 2fr repeat(10, 1fr) 2fr;
+  grid-template-columns: 2fr repeat(7, 1fr) 2fr;
 }
 
 .column {
