@@ -4,9 +4,16 @@ import styles from './JambTable.module.css';
 import NamesColumn from './NamesColumn';
 import ColumnTemplate from './ColumnTemplate';
 
-export default function JambTable() {
+export default function JambTable(props) {
+  const { path } = props;
+  const isMultiPlayer = path.includes('multiPlayer');
+
   return (
-    <div className={styles.tableContainer}>
+    <div
+      className={`${styles.tableContainer} ${
+        isMultiPlayer ? styles.tableContainerMulti : styles.tableContainerSingle
+      }`}
+    >
       <div className={styles.column}>
         <NamesColumn />
       </div>
@@ -22,16 +29,20 @@ export default function JambTable() {
         <span>&#x2191;</span>
         <ColumnTemplate name="bottomToTop" />
       </div>
-      {/* <div className={styles.column}>
-        <span>N</span>
-      </div> */}
+      {isMultiPlayer && (
+        <div className={styles.column}>
+          <span>N</span>
+        </div>
+      )}
       <div className={styles.column}>
         <span>R</span>
         <ColumnTemplate name="fromHand" />
       </div>
-      {/* <div className={styles.column}>
-        <span>D</span>
-      </div> */}
+      {isMultiPlayer && (
+        <div className={styles.column}>
+          <span>D</span>
+        </div>
+      )}
       <div className={styles.column}>
         <span>&#x2191;/&#8595;</span>
         <ColumnTemplate name="fromMiddle" />
@@ -40,9 +51,11 @@ export default function JambTable() {
         <span>&#8595;/&#x2191;</span>
         <ColumnTemplate name="toMiddle" />
       </div>
-      {/* <div className={styles.column}>
-        <span>O</span>
-      </div> */}
+      {isMultiPlayer && (
+        <div className={styles.column}>
+          <span>O</span>
+        </div>
+      )}
       <div className={styles.column}>
         <span>M</span>
         <ColumnTemplate name="maxCol" />

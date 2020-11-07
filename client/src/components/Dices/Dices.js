@@ -15,7 +15,7 @@ export default function Dices() {
       })}
       <button
         className={styles.rollDiceButton}
-        onClick={() => dispatch(() => dispatch(rollDices()))}
+        onClick={() => dispatch(rollDices())}
       >
         Roll Dices
       </button>
