@@ -39,13 +39,11 @@ for (let x in singlePlayerState) {
 }
 
 const singlePlayerReducer = (state = singlePlayerState, action) => {
-  console.log(action.payload);
-
   switch (action.type) {
     case FILL_FIELD:
-      let { field, name } = action.payload;
+      let { field, name, value } = action.payload;
       let objToFill = state[name];
-      objToFill[field] = 5;
+      objToFill[field] = value;
       return { ...state, [state[name]]: objToFill };
     default:
       return state;

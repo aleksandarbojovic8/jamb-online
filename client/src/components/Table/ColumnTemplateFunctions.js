@@ -28,7 +28,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
 
   if (name === 'fromTopAndBottom') {
     fieldsArray.forEach(val => {
-      if (true) {
+      if (columnState[val] === null) {
         enabledFields.push(val);
       }
     });
@@ -49,7 +49,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
 
   if (name === 'fromHand') {
     fieldsArray.forEach(val => {
-      if (turnNumber === 1) {
+      if (columnState[val] === null && turnNumber === 1) {
         enabledFields.push(val);
       }
     });
@@ -99,11 +99,43 @@ export const findEnabledField = (columnState, name, turnNumber) => {
 
   if (name === 'maxCol') {
     fieldsArray.forEach(val => {
-      if (true) {
+      if (columnState[val] === null) {
         enabledFields.push(val);
       }
     });
   }
 
   return enabledFields;
+};
+
+export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
+  let obj = {
+    one: 1,
+    two: 2,
+    three: 3,
+    four: 4,
+    five: 5,
+    six: 6
+  };
+  let valueToReturn = 0;
+
+  if (
+    id === 'one' ||
+    id === 'two' ||
+    id === 'three' ||
+    id === 'four' ||
+    id === 'five' ||
+    id === 'six'
+  ) {
+    let countFiltered = valuesArray.filter(val => val === obj[id]);
+    let count = countFiltered.length === 6 ? 5 : countFiltered.length;
+    valueToReturn = count * obj[id];
+  }
+
+  if (id === 'max' || id === 'min') {
+    let sortedValues = valuesArray.sort();
+    id === 'max' ? sortedValues.shift() : sortedValues.pop();
+    valueToReturn = sortedValues.reduce((a, b) => a + b, 0);
+  }
+  return valueToReturn;
 };

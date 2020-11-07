@@ -1,6 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { findEnabledField } from './ColumnTemplateFunctions';
+import {
+  findEnabledField,
+  calculateFieldValue
+} from './ColumnTemplateFunctions';
 import { fillField as fillFieldAction } from '../../actions/singlePlayerActions';
 import styles from './ColumnTemplate.module.css';
 
@@ -44,10 +47,13 @@ export default function ColumnTemplate(props) {
     ) {
       return;
     } else {
-      //call action to fill data on this field
-      console.log('id', id);
-      console.log('name', name);
-      dispatch(fillFieldAction(id, name));
+      const value = calculateFieldValue(
+        id,
+        name,
+        diceState.dicesValue,
+        turnNumber
+      );
+      dispatch(fillFieldAction(id, name, value));
     }
   };
 
