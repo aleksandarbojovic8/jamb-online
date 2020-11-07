@@ -3,6 +3,7 @@ import styles from './JambTable.module.css';
 
 import NamesColumn from './NamesColumn';
 import ColumnTemplate from './ColumnTemplate';
+import ResultColumn from './ResultColumn';
 
 export default function JambTable(props) {
   const { path } = props;
@@ -60,7 +61,9 @@ export default function JambTable(props) {
         <span>M</span>
         <ColumnTemplate name="maxCol" />
       </div>
-      <div className={styles.column}>/</div>
+      <div className={styles.column}>
+        <ResultColumn />
+      </div>
     </div>
   );
 }

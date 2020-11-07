@@ -2,6 +2,7 @@
   width: 75vw;
   height: 75vh;
   display: grid;
+  border: 3px solid black;
 }
 .tableContainerSingle {
   grid-template-columns: 2fr repeat(7, 1fr) 2fr;
@@ -14,4 +15,5 @@
   grid-template-rows: repeat(17, 1fr);
   justify-items: center;
   align-items: center;
+  border: 1px solid black;
 }
