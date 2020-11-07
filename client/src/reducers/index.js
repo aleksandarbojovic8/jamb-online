@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import dicesReducer from './dicesReducer';
-// import singlePlayerReducer from './singlePlayerReducer';
+import singlePlayerReducer from './singlePlayerReducer';
 
 const rootReducer = combineReducers({
-  dices: dicesReducer
-  // singlePlayerReducer: singlePlayerReducer
+  dices: dicesReducer,
+  singlePlayer: singlePlayerReducer
 });
 
 export default rootReducer;

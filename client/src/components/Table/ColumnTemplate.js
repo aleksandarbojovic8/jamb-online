@@ -1,169 +1,55 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { findEnabledField } from './ColumnTemplateFunctions';
+import { fillField as fillFieldAction } from '../../actions/singlePlayerActions';
 import styles from './ColumnTemplate.module.css';
 
 export default function ColumnTemplate(props) {
   const { name } = props;
+  const dispatch = useDispatch();
+  const singlePlayerState = useSelector(state => state.singlePlayer);
+  const diceState = useSelector(state => state.dices);
+  const columnState = singlePlayerState[name];
+  const turnNumber = diceState.turn;
 
-  const obj = {
-    one: null,
-    two: null,
-    three: null,
-    four: null,
-    five: null,
-    six: null,
-    upperSum: null,
-    max: null,
-    min: null,
-    middleSum: null,
-    kenta: null,
-    triling: null,
-    ful: null,
-    poker: null,
-    jamb: null,
-    bottomSum: null
-  };
+  const keyArray = [
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'upperSum',
+    'max',
+    'min',
+    'middleSum',
+    'kenta',
+    'triling',
+    'ful',
+    'poker',
+    'jamb',
+    'bottomSum'
+  ];
 
-  let rollNumber = 1;
-
-  //   topToBottom: {},
-  //   fromTopAndBottom: {},
-  //   bottomToTop: {},
-  //   annunciation: {},
-  //   fromHand: {},
-  //   alert: {},
-  //   fromMiddle: {},
-  //   toMiddle: {},
-  //   lastCol: {},
-  //   maxCol: {}
+  const enabledFields = findEnabledField(columnState, name, turnNumber);
 
   const fillField = e => {
     const id = e.target.id;
-    if (id === 'upperSum' || id === 'middleSum' || id === 'bottomSum') {
+    let enabled = enabledFields.includes(id);
+    if (
+      id === 'upperSum' ||
+      id === 'middleSum' ||
+      id === 'bottomSum' ||
+      enabled === false
+    ) {
       return;
+    } else {
+      //call action to fill data on this field
+      console.log('id', id);
+      console.log('name', name);
+      dispatch(fillFieldAction(id, name));
     }
-    //call action to fill data on this field
-    console.log(id);
   };
-
-  const keyArray = Object.keys(obj);
-
-  const enabledFields = [];
-
-  if (name === 'topToBottom') {
-    let foundOne = false;
-    keyArray.forEach(val => {
-      if (
-        foundOne === false &&
-        obj[val] === null &&
-        val !== 'upperSum' &&
-        val !== 'middleSum' &&
-        val !== 'bottomSum'
-      ) {
-        enabledFields.push(val);
-        foundOne = true;
-      }
-    });
-  }
-
-  if (name === 'fromTopAndBottom') {
-    keyArray.forEach(val => {
-      if (val !== 'upperSum' && val !== 'middleSum' && val !== 'bottomSum') {
-        enabledFields.push(val);
-      }
-    });
-  }
-
-  if (name === 'bottomToTop') {
-    let foundOne = false;
-    keyArray
-      .slice()
-      .reverse()
-      .forEach(val => {
-        if (
-          foundOne === false &&
-          obj[val] === null &&
-          val !== 'upperSum' &&
-          val !== 'middleSum' &&
-          val !== 'bottomSum'
-        ) {
-          enabledFields.push(val);
-          foundOne = true;
-        }
-      });
-  }
-
-  if (name === 'fromHand') {
-    keyArray.forEach(val => {
-      if (
-        val !== 'upperSum' &&
-        val !== 'middleSum' &&
-        val !== 'bottomSum' &&
-        rollNumber === 1
-      ) {
-        enabledFields.push(val);
-      }
-    });
-  }
-
-  if (name === 'fromMiddle') {
-    let foundOne = false;
-    let foundTwo = false;
-    keyArray
-      .slice(0, 8)
-      .reverse()
-      .forEach(val => {
-        if (foundOne === false && obj[val] === null && val !== 'upperSum') {
-          enabledFields.push(val);
-          foundOne = true;
-        }
-      });
-
-    keyArray.slice(8).forEach(val => {
-      if (
-        foundTwo === false &&
-        obj[val] === null &&
-        val !== 'middleSum' &&
-        val !== 'bottomSum'
-      ) {
-        enabledFields.push(val);
-        foundTwo = true;
-      }
-    });
-  }
-
-  if (name === 'toMiddle') {
-    let foundOne = false;
-    let foundTwo = false;
-    keyArray.slice(0, 8).forEach(val => {
-      if (foundOne === false && obj[val] === null && val !== 'upperSum') {
-        enabledFields.push(val);
-        foundOne = true;
-      }
-    });
-
-    keyArray
-      .slice(8)
-      .reverse()
-      .forEach(val => {
-        if (
-          foundTwo === false &&
-          obj[val] === null &&
-          val !== 'middleSum' &&
-          val !== 'bottomSum'
-        ) {
-          enabledFields.push(val);
-          foundTwo = true;
-        }
-      });
-  }
-
-  if (name === 'maxCol') {
-    keyArray.forEach(val => {
-      if (val !== 'upperSum' && val !== 'middleSum' && val !== 'bottomSum') {
-        enabledFields.push(val);
-      }
-    });
-  }
 
   return (
     <>
@@ -178,11 +64,9 @@ export default function ColumnTemplate(props) {
                 fillField(e);
               }
             }}
-            className={`${styles.field} ${
-              enabled ? styles.nextField : styles.fieldDisabled
-            }`}
+            className={`${styles.field} ${enabled && styles.nextField}`}
           >
-            {obj[val]}
+            {columnState[val]}
           </div>
         );
       })}
