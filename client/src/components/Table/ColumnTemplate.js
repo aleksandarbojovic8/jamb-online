@@ -87,6 +87,13 @@ export default function ColumnTemplate(props) {
     }
   };
 
+  const label = val => {
+    if (val === 'upperSum' || val === 'middleSum' || val === 'bottomSum') {
+      return columnState[val] !== null ? columnState[val] : 0;
+    }
+    return columnState[val];
+  };
+
   return (
     <>
       {keyArray.map(val => {
@@ -102,7 +109,7 @@ export default function ColumnTemplate(props) {
             }}
             className={`${styles.field} ${enabled && styles.nextField}`}
           >
-            {columnState[val]}
+            {label(val)}
           </div>
         );
       })}

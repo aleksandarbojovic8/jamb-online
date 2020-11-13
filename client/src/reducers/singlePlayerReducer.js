@@ -75,7 +75,9 @@ function fillUpperSumReducer(state, action) {
 
   upperNames.forEach(val => {
     upperSum += objToFill[val];
-    allExist = objToFill[val] === null ? false : true;
+    if (objToFill[val] === null) {
+      allExist = false;
+    }
   });
 
   if (upperSum >= 60 && allExist) {
@@ -93,7 +95,9 @@ function fillMiddleSumReducer(state, action) {
   let middleNames = ['one', 'max', 'min'];
 
   middleNames.forEach(val => {
-    allExist = objToFill[val] === null ? false : true;
+    if (objToFill[val] === null) {
+      allExist = false;
+    }
   });
 
   if (allExist) {
