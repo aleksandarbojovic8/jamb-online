@@ -66,21 +66,23 @@ const singlePlayerReducer = (state = singlePlayerState, action) => {
 };
 
 function fillFieldReducer(state, action) {
-  let { field, name, value } = action.payload;
-  let objToFill = state[name];
-  objToFill[field] = value;
-  return { ...state, [state[name]]: objToFill };
+  let { fieldName, columnName, fieldValue } = action.payload;
+  let objToFill = state[columnName];
+  objToFill[fieldName] = fieldValue;
+  return { ...state, [state[columnName]]: objToFill };
 }
 
 function fillUpperSumReducer(state, action) {
-  let { name } = action.payload;
-  let objToFill = state[name];
+  let { columnName } = action.payload;
+  console.log(columnName);
+  let objToFill = state[columnName];
 
   let upperSum = 0;
   let allExist = true;
   let upperNames = ['one', 'two', 'three', 'four', 'five', 'six'];
-
+  console.log(upperNames);
   upperNames.forEach(val => {
+    console.log(objToFill);
     upperSum += objToFill[val];
     if (objToFill[val] === null) {
       allExist = false;
@@ -92,11 +94,12 @@ function fillUpperSumReducer(state, action) {
   }
 
   objToFill['upperSum'] = upperSum;
-  return { ...state, [state[name]]: objToFill };
+  return { ...state, [state[columnName]]: objToFill };
 }
+
 function fillMiddleSumReducer(state, action) {
-  let { name } = action.payload;
-  let objToFill = state[name];
+  let { columnName } = action.payload;
+  let objToFill = state[columnName];
   let middleSum = null;
   let allExist = true;
   let middleNames = ['one', 'max', 'min'];
@@ -112,11 +115,12 @@ function fillMiddleSumReducer(state, action) {
   }
 
   objToFill['middleSum'] = middleSum;
-  return { ...state, [state[name]]: objToFill };
+  return { ...state, [state[columnName]]: objToFill };
 }
+
 function fillBottomSumReducer(state, action) {
-  let { name } = action.payload;
-  let objToFill = state[name];
+  let { columnName } = action.payload;
+  let objToFill = state[columnName];
   let bottomSum = 0;
   let bottomNames = ['kenta', 'triling', 'ful', 'poker', 'jamb'];
 
@@ -127,7 +131,7 @@ function fillBottomSumReducer(state, action) {
   });
 
   objToFill['bottomSum'] = bottomSum;
-  return { ...state, [state[name]]: objToFill };
+  return { ...state, [state[columnName]]: objToFill };
 }
 
 export default singlePlayerReducer;

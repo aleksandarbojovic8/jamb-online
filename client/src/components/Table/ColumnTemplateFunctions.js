@@ -1,4 +1,4 @@
-export const findEnabledField = (columnState, name, turnNumber) => {
+export const findEnabledField = (columnState, columnName, turnNumber) => {
   const fieldsArray = [
     'one',
     'two',
@@ -16,7 +16,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
   ];
   const enabledFields = [];
 
-  if (name === 'topToBottom') {
+  if (columnName === 'topToBottom') {
     let foundOne = false;
     fieldsArray.forEach(val => {
       if (foundOne === false && columnState[val] === null) {
@@ -26,7 +26,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
     });
   }
 
-  if (name === 'fromTopAndBottom') {
+  if (columnName === 'fromTopAndBottom') {
     fieldsArray.forEach(val => {
       if (columnState[val] === null) {
         enabledFields.push(val);
@@ -34,7 +34,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
     });
   }
 
-  if (name === 'bottomToTop') {
+  if (columnName === 'bottomToTop') {
     let foundOne = false;
     fieldsArray
       .slice()
@@ -47,7 +47,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
       });
   }
 
-  if (name === 'fromHand') {
+  if (columnName === 'fromHand') {
     fieldsArray.forEach(val => {
       if (columnState[val] === null && turnNumber === 1) {
         enabledFields.push(val);
@@ -55,7 +55,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
     });
   }
 
-  if (name === 'fromMiddle') {
+  if (columnName === 'fromMiddle') {
     let foundOne = false;
     let foundTwo = false;
     fieldsArray
@@ -76,7 +76,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
     });
   }
 
-  if (name === 'toMiddle') {
+  if (columnName === 'toMiddle') {
     let foundOne = false;
     let foundTwo = false;
     fieldsArray.slice(0, 7).forEach(val => {
@@ -97,7 +97,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
       });
   }
 
-  if (name === 'maxCol') {
+  if (columnName === 'maxCol') {
     fieldsArray.forEach(val => {
       if (columnState[val] === null) {
         enabledFields.push(val);
@@ -108,7 +108,12 @@ export const findEnabledField = (columnState, name, turnNumber) => {
   return enabledFields;
 };
 
-export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
+export const calculateFieldValue = (
+  fieldName,
+  columnName,
+  dicesValue,
+  turnNumber
+) => {
   let numberObj = {
     one: 1,
     two: 2,
@@ -120,33 +125,33 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
   let valueToReturn = 0;
   ///////////////////////////////////////
   if (
-    id === 'one' ||
-    id === 'two' ||
-    id === 'three' ||
-    id === 'four' ||
-    id === 'five' ||
-    id === 'six'
+    fieldName === 'one' ||
+    fieldName === 'two' ||
+    fieldName === 'three' ||
+    fieldName === 'four' ||
+    fieldName === 'five' ||
+    fieldName === 'six'
   ) {
-    let countFiltered = valuesArray.filter(val => val === numberObj[id]);
+    let countFiltered = dicesValue.filter(val => val === numberObj[fieldName]);
     let count = countFiltered.length === 6 ? 5 : countFiltered.length;
-    valueToReturn = count * numberObj[id];
+    valueToReturn = count * numberObj[fieldName];
   }
   ///////////////////////////////////////
-  if (id === 'max' || id === 'min') {
-    let sortedValues = valuesArray.sort();
+  if (fieldName === 'max' || fieldName === 'min') {
+    let sortedValues = dicesValue.sort();
     let maxArr = sortedValues.filter((val, i) => i !== 0);
     let minArr = sortedValues.filter((val, i) => i !== 5);
 
-    id === 'max'
+    fieldName === 'max'
       ? (valueToReturn = maxArr.reduce((a, b) => a + b, 0))
       : (valueToReturn = minArr.reduce((a, b) => a + b, 0));
   }
   ///////////////////////////////////////
-  if (id === 'kenta') {
+  if (fieldName === 'kenta') {
     let exampleSmall = [1, 2, 3, 4, 5];
     let exampleBig = [2, 3, 4, 5, 6];
 
-    valuesArray.forEach(val => {
+    dicesValue.forEach(val => {
       exampleSmall = exampleSmall.filter(val1 => val !== val1);
       exampleBig = exampleBig.filter(val2 => val !== val2);
     });
@@ -157,7 +162,7 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     if (isSmall === false && isBig === false) {
       valueToReturn = 0;
     } else {
-      switch (turn) {
+      switch (turnNumber) {
         case 1:
           valueToReturn = 66;
           break;
@@ -175,7 +180,7 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
 
   const createCountObj = () => {
     let countNumbersObj = {};
-    valuesArray.forEach(val => {
+    dicesValue.forEach(val => {
       if (countNumbersObj.hasOwnProperty(val)) {
         countNumbersObj[val]++;
       } else {
@@ -185,14 +190,18 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     return countNumbersObj;
   };
   ///////////////////////////////////////
-  if (id === 'triling' || id === 'poker' || id === 'jamb') {
+  if (
+    fieldName === 'triling' ||
+    fieldName === 'poker' ||
+    fieldName === 'jamb'
+  ) {
     const oneToSixArr = [6, 5, 4, 3, 2, 1];
     const nameObj = { triling: 3, poker: 4, jamb: 5 };
     const bonusObj = { triling: 20, poker: 40, jamb: 50 };
     let obj = createCountObj();
 
     oneToSixArr.forEach(val => {
-      if (obj[val] < nameObj[id]) {
+      if (obj[val] < nameObj[fieldName]) {
         delete obj[val];
       }
     });
@@ -203,13 +212,13 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     if (keysArr.length) {
       value = Number(keysArr[keysArr.length - 1]);
     }
-    let count = value ? nameObj[id] : 0;
-    let bonus = value ? bonusObj[id] : 0;
+    let count = value ? nameObj[fieldName] : 0;
+    let bonus = value ? bonusObj[fieldName] : 0;
 
     valueToReturn = value * count + bonus;
   }
   ///////////////////////////////////////
-  if (id === 'ful') {
+  if (fieldName === 'ful') {
     const oneToSixArr = [6, 5, 4, 3, 2, 1];
     let obj3 = createCountObj();
     let obj2 = createCountObj();
@@ -248,14 +257,14 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
   }
   ///////////////////////////////////////
   let maxColValidator = true;
-  if (nameOfColumn === 'maxCol') {
-    maxColValidator = maxColValidatorFunc(id, valueToReturn);
+  if (columnName === 'maxCol') {
+    maxColValidator = maxColValidatorFunc(fieldName, valueToReturn);
   }
   ///////////////////////////////////////
   return maxColValidator === true ? valueToReturn : 0;
 };
 
-const maxColValidatorFunc = (id, valueToReturn) => {
+const maxColValidatorFunc = (fieldName, valueToReturn) => {
   const maxResults = {
     one: 5,
     two: 10,
@@ -272,5 +281,5 @@ const maxColValidatorFunc = (id, valueToReturn) => {
     jamb: 80
   };
 
-  return valueToReturn === maxResults[id];
+  return valueToReturn === maxResults[fieldName];
 };

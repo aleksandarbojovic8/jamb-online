@@ -11,10 +11,10 @@ export const rollDices = () => {
   };
 };
 
-export const selectDice = index => {
+export const selectDice = diceIndex => {
   return {
     type: SELECT_DICE,
-    payload: { diceIndex: index }
+    payload: { diceIndex }
   };
 };
 

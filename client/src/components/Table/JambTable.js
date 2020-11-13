@@ -12,8 +12,8 @@ export default function JambTable(props) {
   const { path } = props;
   const isMultiPlayer = path.includes('multiPlayer');
   const dispatch = useDispatch();
-  const diceState = useSelector(state => state.dices);
-  const turnNumber = diceState.turn;
+  const dicesState = useSelector(state => state.dices);
+  const { turnNumber } = dicesState;
 
   useEffect(() => {
     if (turnNumber === 0) {
@@ -32,15 +32,15 @@ export default function JambTable(props) {
       </div>
       <div className={styles.column}>
         <span>&#8595;</span>
-        <ColumnTemplate name="topToBottom" />
+        <ColumnTemplate columnName="topToBottom" />
       </div>
       <div className={styles.column}>
         <span>&#8645;</span>
-        <ColumnTemplate name="fromTopAndBottom" />
+        <ColumnTemplate columnName="fromTopAndBottom" />
       </div>
       <div className={styles.column}>
         <span>&#x2191;</span>
-        <ColumnTemplate name="bottomToTop" />
+        <ColumnTemplate columnName="bottomToTop" />
       </div>
       {isMultiPlayer && (
         <div className={styles.column}>
@@ -49,7 +49,7 @@ export default function JambTable(props) {
       )}
       <div className={styles.column}>
         <span>R</span>
-        <ColumnTemplate name="fromHand" />
+        <ColumnTemplate columnName="fromHand" />
       </div>
       {isMultiPlayer && (
         <div className={styles.column}>
@@ -58,11 +58,11 @@ export default function JambTable(props) {
       )}
       <div className={styles.column}>
         <span>&#x2191;/&#8595;</span>
-        <ColumnTemplate name="fromMiddle" />
+        <ColumnTemplate columnName="fromMiddle" />
       </div>
       <div className={styles.column}>
         <span>&#8595;/&#x2191;</span>
-        <ColumnTemplate name="toMiddle" />
+        <ColumnTemplate columnName="toMiddle" />
       </div>
       {isMultiPlayer && (
         <div className={styles.column}>
@@ -71,7 +71,7 @@ export default function JambTable(props) {
       )}
       <div className={styles.column}>
         <span>M</span>
-        <ColumnTemplate name="maxCol" />
+        <ColumnTemplate columnName="maxCol" />
       </div>
       <div className={styles.column}>
         <ResultColumn />

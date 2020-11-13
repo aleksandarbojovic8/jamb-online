@@ -5,7 +5,7 @@ import {
   calculateFieldValue
 } from './ColumnTemplateFunctions';
 import {
-  fillField as fillFieldAction,
+  fillFieldAction,
   fillUpperSumAction,
   fillMiddleSumAction,
   fillBottomSumAction
@@ -14,12 +14,13 @@ import { unselectAllDices, resetRollCount } from '../../actions/dicesActions';
 import styles from './ColumnTemplate.module.css';
 
 export default function ColumnTemplate(props) {
-  const { name } = props;
+  const { columnName } = props;
   const dispatch = useDispatch();
   const singlePlayerState = useSelector(state => state.singlePlayer);
-  const diceState = useSelector(state => state.dices);
-  const columnState = singlePlayerState[name];
-  const turnNumber = diceState.turn;
+  const dicesState = useSelector(state => state.dices);
+
+  const columnState = singlePlayerState[columnName];
+  const { dicesValue, turnNumber } = dicesState;
 
   const keyArray = [
     'one',
@@ -40,68 +41,75 @@ export default function ColumnTemplate(props) {
     'bottomSum'
   ];
 
-  const enabledFields = findEnabledField(columnState, name, turnNumber);
+  const enabledFields = findEnabledField(columnState, columnName, turnNumber);
 
   const fillField = e => {
-    const id = e.target.id;
-    let enabled = enabledFields.includes(id);
+    const fieldName = e.target.id;
+    let enabled = enabledFields.includes(fieldName);
     if (
-      id !== 'upperSum' &&
-      id !== 'middleSum' &&
-      id !== 'bottomSum' &&
+      fieldName !== 'upperSum' &&
+      fieldName !== 'middleSum' &&
+      fieldName !== 'bottomSum' &&
       enabled === true
     ) {
-      const value = calculateFieldValue(
-        id,
-        name,
-        diceState.dicesValue,
+      const fieldValue = calculateFieldValue(
+        fieldName,
+        columnName,
+        dicesValue,
         turnNumber
       );
-      dispatch(fillFieldAction(id, name, value));
+      dispatch(fillFieldAction(fieldName, columnName, fieldValue));
       dispatch(unselectAllDices());
       dispatch(resetRollCount());
     }
     if (
-      (id === 'one' ||
-        id === 'two' ||
-        id === 'three' ||
-        id === 'four' ||
-        id === 'five' ||
-        id === 'six') &&
+      (fieldName === 'one' ||
+        fieldName === 'two' ||
+        fieldName === 'three' ||
+        fieldName === 'four' ||
+        fieldName === 'five' ||
+        fieldName === 'six') &&
       enabled === true
     ) {
-      dispatch(fillUpperSumAction(name));
-    }
-    if ((id === 'one' || id === 'max' || id === 'min') && enabled === true) {
-      dispatch(fillMiddleSumAction(name));
+      dispatch(fillUpperSumAction(columnName));
     }
     if (
-      (id === 'kenta' ||
-        id === 'triling' ||
-        id === 'ful' ||
-        id === 'poker' ||
-        id === 'jamb') &&
+      (fieldName === 'one' || fieldName === 'max' || fieldName === 'min') &&
       enabled === true
     ) {
-      dispatch(fillBottomSumAction(name));
+      dispatch(fillMiddleSumAction(columnName));
+    }
+    if (
+      (fieldName === 'kenta' ||
+        fieldName === 'triling' ||
+        fieldName === 'ful' ||
+        fieldName === 'poker' ||
+        fieldName === 'jamb') &&
+      enabled === true
+    ) {
+      dispatch(fillBottomSumAction(columnName));
     }
   };
 
-  const label = val => {
-    if (val === 'upperSum' || val === 'middleSum' || val === 'bottomSum') {
-      return columnState[val] !== null ? columnState[val] : 0;
+  const label = fieldName => {
+    if (
+      fieldName === 'upperSum' ||
+      fieldName === 'middleSum' ||
+      fieldName === 'bottomSum'
+    ) {
+      return columnState[fieldName] !== null ? columnState[fieldName] : 0;
     }
-    return columnState[val];
+    return columnState[fieldName];
   };
 
   return (
     <>
-      {keyArray.map(val => {
-        let enabled = enabledFields.includes(val);
+      {keyArray.map(fieldName => {
+        let enabled = enabledFields.includes(fieldName);
         return (
           <div
-            id={val}
-            key={val}
+            id={fieldName}
+            key={fieldName}
             onClick={e => {
               if (enabled) {
                 fillField(e);
@@ -109,7 +117,7 @@ export default function ColumnTemplate(props) {
             }}
             className={`${styles.field} ${enabled && styles.nextField}`}
           >
-            {label(val)}
+            {label(fieldName)}
           </div>
         );
       })}

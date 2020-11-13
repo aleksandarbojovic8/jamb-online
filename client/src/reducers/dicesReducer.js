@@ -5,13 +5,13 @@ import {
   RESET_ROLL_COUNT
 } from '../actions/types';
 
-const diceState = {
+const dicesState = {
   dicesSelected: [false, false, false, false, false, false],
   dicesValue: [1, 1, 1, 1, 1, 1],
-  turn: 1
+  turnNumber: 1
 };
 
-const dicesReducer = (state = diceState, action) => {
+const dicesReducer = (state = dicesState, action) => {
   switch (action.type) {
     case ROLL_DICES:
       return rollDicesReducer(state, action);
@@ -27,14 +27,14 @@ const dicesReducer = (state = diceState, action) => {
 };
 
 function rollDicesReducer(state, action) {
-  const { dicesSelected, dicesValue, turn } = state;
+  const { dicesSelected, dicesValue, turnNumber } = state;
 
   const dicesValueNew = dicesSelected.map((val, i) => {
     const randomDice = Math.floor(Math.random() * 6) + 1;
     return val ? dicesValue[i] : randomDice;
   });
 
-  return { ...state, dicesValue: dicesValueNew, turn: turn + 1 };
+  return { ...state, dicesValue: dicesValueNew, turnNumber: turnNumber + 1 };
 }
 
 function selectDiceReducer(state, action) {
@@ -55,7 +55,7 @@ function unselectAllDiceReducer(state, action) {
 }
 
 function resetRollCountReducer(state, action) {
-  return { ...state, turn: 0 };
+  return { ...state, turnNumber: 0 };
 }
 
 export default dicesReducer;
