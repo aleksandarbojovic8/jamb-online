@@ -43,6 +43,13 @@ for (let x in singlePlayerState) {
   }
 }
 
+singlePlayerState.results = {
+  fullUpperSum: 0,
+  fullMiddleSum: 0,
+  fullBottomSum: 0,
+  fullSum: 0
+};
+
 const singlePlayerReducer = (state = singlePlayerState, action) => {
   switch (action.type) {
     case FILL_FIELD:

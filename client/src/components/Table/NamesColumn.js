@@ -15,10 +15,10 @@ export default function NamesColumn() {
       <div>MIN</div>
       <div>&#8721;</div>
       <div>KENTA</div>
-      <div>TRILING</div>
-      <div>FUL</div>
-      <div>POKER</div>
-      <div>JAMB</div>
+      <div>TRILING (+20)</div>
+      <div>FUL (+30)</div>
+      <div>POKER (+40)</div>
+      <div>JAMB (+50)</div>
       <div>&#8721;</div>
     </>
   );
