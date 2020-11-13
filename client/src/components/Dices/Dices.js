@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { rollDices } from '../../actions/dicesActions';
 import OneDice from './OneDice';
 import styles from './Dices.module.css';
@@ -7,6 +7,8 @@ import styles from './Dices.module.css';
 export default function Dices() {
   const diceNames = ['die1', 'die2', 'die3', 'die4', 'die5', 'die6'];
   const dispatch = useDispatch();
+  const diceState = useSelector(state => state.dices);
+  const turnNumber = diceState.turn;
 
   return (
     <div className={styles.dicesContainer}>
@@ -15,6 +17,7 @@ export default function Dices() {
       })}
       <button
         className={styles.rollDiceButton}
+        disabled={turnNumber >= 3}
         onClick={() => dispatch(rollDices())}
       >
         Roll Dices

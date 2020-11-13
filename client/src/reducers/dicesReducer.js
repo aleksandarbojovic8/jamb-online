@@ -7,23 +7,35 @@ const diceState = {
 };
 
 const dicesReducer = (state = diceState, action) => {
-  const { dicesSelected, dicesValue } = state;
   switch (action.type) {
     case ROLL_DICES:
-      const dicesValueNew = dicesSelected.map((val, i) => {
-        const randomDice = Math.floor(Math.random() * 6) + 1;
-        return val ? dicesValue[i] : randomDice;
-      });
-      return { ...state, dicesValue: dicesValueNew };
-
+      return rollDicesReducer(state, action);
     case SELECT_DICE:
-      const { diceIndex } = action.payload;
-      const dicesSelectedNew = [...dicesSelected];
-      dicesSelectedNew[diceIndex] = !dicesSelected[diceIndex];
-      return { ...state, dicesSelected: dicesSelectedNew };
+      return selectDiceReducer(state, action);
     default:
       return state;
   }
 };
+
+function rollDicesReducer(state, action) {
+  const { dicesSelected, dicesValue, turn } = state;
+
+  const dicesValueNew = dicesSelected.map((val, i) => {
+    const randomDice = Math.floor(Math.random() * 6) + 1;
+    return val ? dicesValue[i] : randomDice;
+  });
+
+  return { ...state, dicesValue: dicesValueNew, turn: turn + 1 };
+}
+
+function selectDiceReducer(state, action) {
+  const { dicesSelected } = state;
+  const { diceIndex } = action.payload;
+
+  const dicesSelectedNew = [...dicesSelected];
+  dicesSelectedNew[diceIndex] = !dicesSelected[diceIndex];
+
+  return { ...state, dicesSelected: dicesSelectedNew };
+}
 
 export default dicesReducer;
