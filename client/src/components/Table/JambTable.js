@@ -1,13 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styles from './JambTable.module.css';
 
 import NamesColumn from './NamesColumn';
 import ColumnTemplate from './ColumnTemplate';
 import ResultColumn from './ResultColumn';
 
+import { rollDices } from '../../actions/dicesActions';
+
 export default function JambTable(props) {
   const { path } = props;
   const isMultiPlayer = path.includes('multiPlayer');
+  const dispatch = useDispatch();
+  const diceState = useSelector(state => state.dices);
+  const turnNumber = diceState.turn;
+
+  useEffect(() => {
+    if (turnNumber === 0) {
+      dispatch(rollDices());
+    }
+  });
 
   return (
     <div

@@ -10,6 +10,7 @@ import {
   fillMiddleSumAction,
   fillBottomSumAction
 } from '../../actions/singlePlayerActions';
+import { unselectAllDices, resetRollCount } from '../../actions/dicesActions';
 import styles from './ColumnTemplate.module.css';
 
 export default function ColumnTemplate(props) {
@@ -57,6 +58,8 @@ export default function ColumnTemplate(props) {
         turnNumber
       );
       dispatch(fillFieldAction(id, name, value));
+      dispatch(unselectAllDices());
+      dispatch(resetRollCount());
     }
     if (
       (id === 'one' ||

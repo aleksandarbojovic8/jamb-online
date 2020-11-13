@@ -16,3 +16,5 @@ export const FILL_BOTTOM_SUM = 'FILL_BOTTOM_SUM';
 //dices actions
 export const ROLL_DICES = 'ROLL_DICES';
 export const SELECT_DICE = 'SELECT_DICE';
+export const UNSELECT_ALL_DICE = 'UNSELECT_ALL_DICE';
+export const RESET_ROLL_COUNT = 'RESET_ROLL_COUNT';
