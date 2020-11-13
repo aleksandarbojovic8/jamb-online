@@ -4,7 +4,12 @@ import {
   findEnabledField,
   calculateFieldValue
 } from './ColumnTemplateFunctions';
-import { fillField as fillFieldAction } from '../../actions/singlePlayerActions';
+import {
+  fillField as fillFieldAction,
+  fillUpperSumAction
+  // fillMiddleSumAction,
+  // fillBottomSumAction
+} from '../../actions/singlePlayerActions';
 import styles from './ColumnTemplate.module.css';
 
 export default function ColumnTemplate(props) {
@@ -40,13 +45,11 @@ export default function ColumnTemplate(props) {
     const id = e.target.id;
     let enabled = enabledFields.includes(id);
     if (
-      id === 'upperSum' ||
-      id === 'middleSum' ||
-      id === 'bottomSum' ||
-      enabled === false
+      id !== 'upperSum' &&
+      id !== 'middleSum' &&
+      id !== 'bottomSum' &&
+      enabled === true
     ) {
-      return;
-    } else {
       const value = calculateFieldValue(
         id,
         name,
@@ -54,6 +57,17 @@ export default function ColumnTemplate(props) {
         turnNumber
       );
       dispatch(fillFieldAction(id, name, value));
+    }
+    if (
+      (id === 'one' ||
+        id === 'two' ||
+        id === 'three' ||
+        id === 'four' ||
+        id === 'five' ||
+        id === 'six') &&
+      enabled === true
+    ) {
+      dispatch(fillUpperSumAction(name));
     }
   };
 

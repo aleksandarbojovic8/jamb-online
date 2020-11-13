@@ -1,4 +1,9 @@
-import { FILL_FIELD } from '../actions/types';
+import {
+  FILL_FIELD,
+  FILL_UPPER_SUM
+  // FILL_MIDDLE_SUM,
+  // FILL_BOTTOM_SUM
+} from '../actions/types';
 
 const obj = {
   one: null,
@@ -41,13 +46,40 @@ for (let x in singlePlayerState) {
 const singlePlayerReducer = (state = singlePlayerState, action) => {
   switch (action.type) {
     case FILL_FIELD:
-      let { field, name, value } = action.payload;
-      let objToFill = state[name];
-      objToFill[field] = value;
-      return { ...state, [state[name]]: objToFill };
+      return fillFieldReducer(state, action);
+    case FILL_UPPER_SUM:
+      return fillUpperSumReducer(state, action);
     default:
       return state;
   }
 };
+
+function fillFieldReducer(state, action) {
+  let { field, name, value } = action.payload;
+  let objToFill = state[name];
+  objToFill[field] = value;
+  return { ...state, [state[name]]: objToFill };
+}
+
+function fillUpperSumReducer(state, action) {
+  let { name } = action.payload;
+  let objToFill = state[name];
+
+  let upperSum = 0;
+  let allExist = true;
+  let upperNames = ['one', 'two', 'three', 'four', 'five', 'six'];
+
+  upperNames.forEach(val => {
+    upperSum += objToFill[val];
+    allExist = objToFill[val] === null ? false : true;
+  });
+
+  if (upperSum >= 60 && allExist) {
+    upperSum += 30;
+  }
+
+  objToFill['upperSum'] = upperSum;
+  return { ...state, [state[name]]: objToFill };
+}
 
 export default singlePlayerReducer;

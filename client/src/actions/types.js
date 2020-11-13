@@ -1,5 +1,8 @@
 //singlePlayer actions
 export const FILL_FIELD = 'FILL_FIELD';
+export const FILL_UPPER_SUM = 'FILL_UPPER_SUM';
+export const FILL_MIDDLE_SUM = 'FILL_MIDDLE_SUM';
+export const FILL_BOTTOM_SUM = 'FILL_BOTTOM_SUM';
 // export const FROM_TOP_TO_BOTTOM = 'FROM_TOP_TO_BOTTOM';
 // export const FROM_TOP_AND_BOTTOM = 'FROM_TOP_AND_BOTTOM';
 // export const FROM_BOTTOM_TO_TOP = 'FROM_BOTTOM_TO_TOP';
