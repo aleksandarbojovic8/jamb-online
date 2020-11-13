@@ -246,6 +246,31 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
       valueToReturn = 0;
     }
   }
+  ///////////////////////////////////////
+  let maxColValidator = true;
+  if (nameOfColumn === 'maxCol') {
+    maxColValidator = maxColValidatorFunc(id, valueToReturn);
+  }
+  ///////////////////////////////////////
+  return maxColValidator === true ? valueToReturn : 0;
+};
 
-  return valueToReturn;
+const maxColValidatorFunc = (id, valueToReturn) => {
+  const maxResults = {
+    one: 5,
+    two: 10,
+    three: 15,
+    four: 20,
+    five: 25,
+    six: 30,
+    max: 30,
+    min: 5,
+    kenta: 66,
+    triling: 38,
+    ful: 58,
+    poker: 64,
+    jamb: 80
+  };
+
+  return valueToReturn === maxResults[id];
 };
