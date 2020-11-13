@@ -134,8 +134,12 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
   ///////////////////////////////////////
   if (id === 'max' || id === 'min') {
     let sortedValues = valuesArray.sort();
-    id === 'max' ? sortedValues.shift() : sortedValues.pop();
-    valueToReturn = sortedValues.reduce((a, b) => a + b, 0);
+    let maxArr = sortedValues.filter((val, i) => i !== 0);
+    let minArr = sortedValues.filter((val, i) => i !== 5);
+
+    id === 'max'
+      ? (valueToReturn = maxArr.reduce((a, b) => a + b, 0))
+      : (valueToReturn = minArr.reduce((a, b) => a + b, 0));
   }
   ///////////////////////////////////////
   if (id === 'kenta') {
