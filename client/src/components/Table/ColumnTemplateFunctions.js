@@ -118,7 +118,7 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     six: 6
   };
   let valueToReturn = 0;
-
+  ///////////////////////////////////////
   if (
     id === 'one' ||
     id === 'two' ||
@@ -131,13 +131,13 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     let count = countFiltered.length === 6 ? 5 : countFiltered.length;
     valueToReturn = count * numberObj[id];
   }
-
+  ///////////////////////////////////////
   if (id === 'max' || id === 'min') {
     let sortedValues = valuesArray.sort();
     id === 'max' ? sortedValues.shift() : sortedValues.pop();
     valueToReturn = sortedValues.reduce((a, b) => a + b, 0);
   }
-
+  ///////////////////////////////////////
   if (id === 'kenta') {
     let exampleSmall = [1, 2, 3, 4, 5];
     let exampleBig = [2, 3, 4, 5, 6];
@@ -180,7 +180,7 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     });
     return countNumbersObj;
   };
-
+  ///////////////////////////////////////
   if (id === 'triling' || id === 'poker' || id === 'jamb') {
     const oneToSixArr = [6, 5, 4, 3, 2, 1];
     const nameObj = { triling: 3, poker: 4, jamb: 5 };
@@ -204,8 +204,44 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
 
     valueToReturn = value * count + bonus;
   }
-  // if ((id === 'ful')) {
-  // }
+  ///////////////////////////////////////
+  if (id === 'ful') {
+    const oneToSixArr = [6, 5, 4, 3, 2, 1];
+    let obj3 = createCountObj();
+    let obj2 = createCountObj();
+
+    oneToSixArr.forEach(val => {
+      if (obj3[val] < 3) {
+        delete obj3[val];
+      }
+      if (obj2[val] < 2) {
+        delete obj2[val];
+      }
+    });
+
+    let value3 = 0;
+    let value2 = 0;
+
+    let keysArr3 = Object.keys(obj3).sort();
+    if (keysArr3.length) {
+      value3 = Number(keysArr3[keysArr3.length - 1]);
+      let keyToDelete = keysArr3[keysArr3.length - 1];
+      delete obj2[keyToDelete];
+    }
+
+    let keysArr2 = Object.keys(obj2).sort();
+    if (keysArr2.length) {
+      value2 = Number(keysArr2[keysArr2.length - 1]);
+    }
+
+    let bonus = keysArr3.length && keysArr2.length ? 30 : 0;
+
+    if (keysArr3.length && keysArr2.length) {
+      valueToReturn = value3 * 3 + value2 * 2 + bonus;
+    } else {
+      valueToReturn = 0;
+    }
+  }
 
   return valueToReturn;
 };
