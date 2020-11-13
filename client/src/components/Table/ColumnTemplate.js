@@ -6,9 +6,9 @@ import {
 } from './ColumnTemplateFunctions';
 import {
   fillField as fillFieldAction,
-  fillUpperSumAction
-  // fillMiddleSumAction,
-  // fillBottomSumAction
+  fillUpperSumAction,
+  fillMiddleSumAction,
+  fillBottomSumAction
 } from '../../actions/singlePlayerActions';
 import styles from './ColumnTemplate.module.css';
 
@@ -68,6 +68,19 @@ export default function ColumnTemplate(props) {
       enabled === true
     ) {
       dispatch(fillUpperSumAction(name));
+    }
+    if ((id === 'one' || id === 'max' || id === 'min') && enabled === true) {
+      dispatch(fillMiddleSumAction(name));
+    }
+    if (
+      (id === 'kenta' ||
+        id === 'triling' ||
+        id === 'ful' ||
+        id === 'poker' ||
+        id === 'jamb') &&
+      enabled === true
+    ) {
+      dispatch(fillBottomSumAction(name));
     }
   };
 
