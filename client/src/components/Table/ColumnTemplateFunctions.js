@@ -109,7 +109,7 @@ export const findEnabledField = (columnState, name, turnNumber) => {
 };
 
 export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
-  let obj = {
+  let numberObj = {
     one: 1,
     two: 2,
     three: 3,
@@ -127,9 +127,9 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     id === 'five' ||
     id === 'six'
   ) {
-    let countFiltered = valuesArray.filter(val => val === obj[id]);
+    let countFiltered = valuesArray.filter(val => val === numberObj[id]);
     let count = countFiltered.length === 6 ? 5 : countFiltered.length;
-    valueToReturn = count * obj[id];
+    valueToReturn = count * numberObj[id];
   }
 
   if (id === 'max' || id === 'min') {
@@ -137,5 +137,75 @@ export const calculateFieldValue = (id, nameOfColumn, valuesArray, turn) => {
     id === 'max' ? sortedValues.shift() : sortedValues.pop();
     valueToReturn = sortedValues.reduce((a, b) => a + b, 0);
   }
+
+  if (id === 'kenta') {
+    let exampleSmall = [1, 2, 3, 4, 5];
+    let exampleBig = [2, 3, 4, 5, 6];
+
+    valuesArray.forEach(val => {
+      exampleSmall = exampleSmall.filter(val1 => val !== val1);
+      exampleBig = exampleBig.filter(val2 => val !== val2);
+    });
+
+    let isSmall = exampleSmall.length ? false : true;
+    let isBig = exampleBig.length ? false : true;
+
+    if (isSmall === false && isBig === false) {
+      valueToReturn = 0;
+    } else {
+      switch (turn) {
+        case 1:
+          valueToReturn = 66;
+          break;
+        case 2:
+          valueToReturn = 56;
+          break;
+        case 3:
+          valueToReturn = 46;
+          break;
+        default:
+          console.log('Default');
+      }
+    }
+  }
+
+  const createCountObj = () => {
+    let countNumbersObj = {};
+    valuesArray.forEach(val => {
+      if (countNumbersObj.hasOwnProperty(val)) {
+        countNumbersObj[val]++;
+      } else {
+        countNumbersObj[val] = 1;
+      }
+    });
+    return countNumbersObj;
+  };
+
+  if (id === 'triling' || id === 'poker' || id === 'jamb') {
+    const oneToSixArr = [6, 5, 4, 3, 2, 1];
+    const nameObj = { triling: 3, poker: 4, jamb: 5 };
+    const bonusObj = { triling: 20, poker: 40, jamb: 50 };
+    let obj = createCountObj();
+
+    oneToSixArr.forEach(val => {
+      if (obj[val] < nameObj[id]) {
+        delete obj[val];
+      }
+    });
+
+    let keysArr = Object.keys(obj).sort();
+    let value = 0;
+
+    if (keysArr.length) {
+      value = Number(keysArr[keysArr.length - 1]);
+    }
+    let count = value ? nameObj[id] : 0;
+    let bonus = value ? bonusObj[id] : 0;
+
+    valueToReturn = value * count + bonus;
+  }
+  // if ((id === 'ful')) {
+  // }
+
   return valueToReturn;
 };
