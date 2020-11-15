@@ -9,6 +9,7 @@
 
 .nextField {
   background-color: white;
+  cursor: pointer;
 }
 
 /* .fieldDisabled {
