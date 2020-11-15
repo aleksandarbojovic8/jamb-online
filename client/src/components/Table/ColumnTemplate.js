@@ -2,13 +2,20 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { findEnabledFields } from './ColumnTemplateFindEnabledFields';
 import { calculateFieldValue } from './ColumnTemplateCalculateFieldValue';
+import { unselectAllDices, resetRollCount } from '../../actions/dicesActions';
 import {
   fillFieldAction,
   fillUpperSumAction,
   fillMiddleSumAction,
   fillBottomSumAction
 } from '../../actions/singlePlayerActions';
-import { unselectAllDices, resetRollCount } from '../../actions/dicesActions';
+import {
+  upperKeysArray,
+  middleKeysArray,
+  bottomKeysArray,
+  sumKeysArray,
+  fieldsKeysArray
+} from '../../constants';
 import styles from './ColumnTemplate.module.css';
 
 export default function ColumnTemplate(props) {
@@ -20,36 +27,13 @@ export default function ColumnTemplate(props) {
   const columnState = singlePlayerState[columnName];
   const { dicesValue, turnNumber } = dicesState;
 
-  const keyArray = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'upperSum',
-    'max',
-    'min',
-    'middleSum',
-    'kenta',
-    'triling',
-    'ful',
-    'poker',
-    'jamb',
-    'bottomSum'
-  ];
-
   const enabledFields = findEnabledFields(columnState, columnName, turnNumber);
 
   const fillField = e => {
     const fieldName = e.target.id;
     let enabled = enabledFields.includes(fieldName);
-    if (
-      fieldName !== 'upperSum' &&
-      fieldName !== 'middleSum' &&
-      fieldName !== 'bottomSum' &&
-      enabled === true
-    ) {
+    //fill fields actions
+    if (!sumKeysArray.includes(fieldName) && enabled === true) {
       const fieldValue = calculateFieldValue(
         fieldName,
         columnName,
@@ -60,41 +44,23 @@ export default function ColumnTemplate(props) {
       dispatch(unselectAllDices());
       dispatch(resetRollCount());
     }
-    if (
-      (fieldName === 'one' ||
-        fieldName === 'two' ||
-        fieldName === 'three' ||
-        fieldName === 'four' ||
-        fieldName === 'five' ||
-        fieldName === 'six') &&
-      enabled === true
-    ) {
+    //sum actions
+    if (upperKeysArray.includes(fieldName) && enabled === true) {
       dispatch(fillUpperSumAction(columnName));
     }
     if (
-      (fieldName === 'one' || fieldName === 'max' || fieldName === 'min') &&
+      (fieldName === 'one' || middleKeysArray.includes(fieldName)) &&
       enabled === true
     ) {
       dispatch(fillMiddleSumAction(columnName));
     }
-    if (
-      (fieldName === 'kenta' ||
-        fieldName === 'triling' ||
-        fieldName === 'ful' ||
-        fieldName === 'poker' ||
-        fieldName === 'jamb') &&
-      enabled === true
-    ) {
+    if (bottomKeysArray.includes(fieldName) && enabled === true) {
       dispatch(fillBottomSumAction(columnName));
     }
   };
 
   const label = fieldName => {
-    if (
-      fieldName === 'upperSum' ||
-      fieldName === 'middleSum' ||
-      fieldName === 'bottomSum'
-    ) {
+    if (sumKeysArray.includes(fieldName)) {
       return columnState[fieldName] !== null ? columnState[fieldName] : 0;
     }
     return columnState[fieldName];
@@ -102,7 +68,7 @@ export default function ColumnTemplate(props) {
 
   return (
     <>
-      {keyArray.map(fieldName => {
+      {fieldsKeysArray.map(fieldName => {
         let enabled = enabledFields.includes(fieldName);
         return (
           <div

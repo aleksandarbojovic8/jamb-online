@@ -74,15 +74,13 @@ function fillFieldReducer(state, action) {
 
 function fillUpperSumReducer(state, action) {
   let { columnName } = action.payload;
-  console.log(columnName);
   let objToFill = state[columnName];
 
   let upperSum = 0;
   let allExist = true;
   let upperNames = ['one', 'two', 'three', 'four', 'five', 'six'];
-  console.log(upperNames);
+
   upperNames.forEach(val => {
-    console.log(objToFill);
     upperSum += objToFill[val];
     if (objToFill[val] === null) {
       allExist = false;
