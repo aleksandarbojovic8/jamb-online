@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { findEnabledFields } from './ColumnTemplateFindEnabledFields';
-import { calculateFieldValue } from './ColumnTemplateFunctions';
+import { calculateFieldValue } from './ColumnTemplateCalculateFieldValue';
 import {
   fillFieldAction,
   fillUpperSumAction,
