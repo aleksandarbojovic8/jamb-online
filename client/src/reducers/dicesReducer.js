@@ -1,7 +1,7 @@
 import {
   ROLL_DICES,
   SELECT_DICE,
-  UNSELECT_ALL_DICE,
+  DESELECT_ALL_DICE,
   RESET_ROLL_COUNT
 } from '../actions/types';
 
@@ -17,7 +17,7 @@ const dicesReducer = (state = dicesState, action) => {
       return rollDicesReducer(state, action);
     case SELECT_DICE:
       return selectDiceReducer(state, action);
-    case UNSELECT_ALL_DICE:
+    case DESELECT_ALL_DICE:
       return unselectAllDiceReducer(state, action);
     case RESET_ROLL_COUNT:
       return resetRollCountReducer(state, action);

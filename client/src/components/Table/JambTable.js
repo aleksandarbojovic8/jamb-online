@@ -6,7 +6,7 @@ import NamesColumn from './NamesColumn';
 import ColumnTemplate from './ColumnTemplate';
 import ResultColumn from './ResultColumn';
 
-import { rollDices } from '../../actions/dicesActions';
+import { rollDicesAction } from '../../actions/dicesActions';
 
 export default function JambTable(props) {
   const { path } = props;
@@ -17,7 +17,7 @@ export default function JambTable(props) {
 
   useEffect(() => {
     if (turnNumber === 0) {
-      dispatch(rollDices());
+      dispatch(rollDicesAction());
     }
   });
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectDice } from '../../actions/dicesActions';
+import { selectDiceAction } from '../../actions/dicesActions';
 import styles from './OneDice.module.css';
 
 export default function OneDice({ diceIndex }) {
@@ -16,7 +16,7 @@ export default function OneDice({ diceIndex }) {
         alt="Dice"
         width="100%"
         height="100%"
-        onClick={() => dispatch(selectDice(diceIndex))}
+        onClick={() => dispatch(selectDiceAction(diceIndex))}
       />
     </div>
   );

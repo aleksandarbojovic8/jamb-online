@@ -1,30 +1,30 @@
 import {
   ROLL_DICES,
   SELECT_DICE,
-  UNSELECT_ALL_DICE,
+  DESELECT_ALL_DICE,
   RESET_ROLL_COUNT
 } from './types';
 
-export const rollDices = () => {
+export const rollDicesAction = () => {
   return {
     type: ROLL_DICES
   };
 };
 
-export const selectDice = diceIndex => {
+export const selectDiceAction = diceIndex => {
   return {
     type: SELECT_DICE,
     payload: { diceIndex }
   };
 };
 
-export const unselectAllDices = () => {
+export const deselectAllDicesAction = () => {
   return {
-    type: UNSELECT_ALL_DICE
+    type: DESELECT_ALL_DICE
   };
 };
 
-export const resetRollCount = () => {
+export const resetRollCountAction = () => {
   return {
     type: RESET_ROLL_COUNT
   };

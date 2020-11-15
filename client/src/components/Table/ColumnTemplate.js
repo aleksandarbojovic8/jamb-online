@@ -2,7 +2,10 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { findEnabledFields } from './ColumnTemplateFindEnabledFields';
 import { calculateFieldValue } from './ColumnTemplateCalculateFieldValue';
-import { unselectAllDices, resetRollCount } from '../../actions/dicesActions';
+import {
+  deselectAllDicesAction,
+  resetRollCountAction
+} from '../../actions/dicesActions';
 import {
   fillFieldAction,
   fillUpperSumAction,
@@ -41,8 +44,8 @@ export default function ColumnTemplate(props) {
         turnNumber
       );
       dispatch(fillFieldAction(fieldName, columnName, fieldValue));
-      dispatch(unselectAllDices());
-      dispatch(resetRollCount());
+      dispatch(deselectAllDicesAction());
+      dispatch(resetRollCountAction());
     }
     //sum actions
     if (upperKeysArray.includes(fieldName) && enabled === true) {

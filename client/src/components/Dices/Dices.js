@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { rollDices } from '../../actions/dicesActions';
+import { rollDicesAction } from '../../actions/dicesActions';
 import OneDice from './OneDice';
 import styles from './Dices.module.css';
 
@@ -18,7 +18,7 @@ export default function Dices() {
       <button
         className={styles.rollDiceButton}
         disabled={turnNumber >= 3}
-        onClick={() => dispatch(rollDices())}
+        onClick={() => dispatch(rollDicesAction())}
       >
         Roll Dices
       </button>
