@@ -1,9 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  findEnabledField,
-  calculateFieldValue
-} from './ColumnTemplateFunctions';
+import { findEnabledFields } from './ColumnTemplateFindEnabledFields';
+import { calculateFieldValue } from './ColumnTemplateFunctions';
 import {
   fillFieldAction,
   fillUpperSumAction,
@@ -41,7 +39,7 @@ export default function ColumnTemplate(props) {
     'bottomSum'
   ];
 
-  const enabledFields = findEnabledField(columnState, columnName, turnNumber);
+  const enabledFields = findEnabledFields(columnState, columnName, turnNumber);
 
   const fillField = e => {
     const fieldName = e.target.id;
