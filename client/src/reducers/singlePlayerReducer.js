@@ -15,13 +15,13 @@ import {
 const singlePlayerState = {};
 
 singlePlayerColumnNamesArray.forEach(columnName => {
-  return (singlePlayerState[columnName] = { ...fieldKeysNullHash });
+  singlePlayerState[columnName] = { ...fieldKeysNullHash };
 });
 
 singlePlayerState.rowResult = {
-  fullUpperSum: 0,
-  fullMiddleSum: 0,
-  fullBottomSum: 0
+  upperSum: 0,
+  middleSum: 0,
+  bottomSum: 0
 };
 singlePlayerState.fullResult = 0;
 
@@ -68,12 +68,14 @@ function fillUpperSumReducer(state, action) {
 
   objToFill['upperSum'] = upperSum;
 
-  // let fullResult = calculateAllResults(state, 'fullUpperSum');
+  let rowResult = calculateRowResult(state, 'upperSum');
+  let fullResult = calculateFullResult(rowResult);
 
   return {
     ...state,
-    [state[columnName]]: objToFill
-    // fullResult
+    [state[columnName]]: objToFill,
+    rowResult,
+    fullResult
   };
 }
 
@@ -95,12 +97,14 @@ function fillMiddleSumReducer(state, action) {
   }
   objToFill['middleSum'] = middleSum;
 
-  // let fullResult = calculateAllResults(state, 'fullMiddleSum');
+  let rowResult = calculateRowResult(state, 'middleSum');
+  let fullResult = calculateFullResult(rowResult);
 
   return {
     ...state,
-    [state[columnName]]: objToFill
-    // fullResult
+    [state[columnName]]: objToFill,
+    rowResult,
+    fullResult
   };
 }
 
@@ -118,35 +122,39 @@ function fillBottomSumReducer(state, action) {
 
   objToFill['bottomSum'] = bottomSum;
 
-  // let fullResult = calculateAllResults(state, 'fullBottomSum');
+  let rowResult = calculateRowResult(state, 'bottomSum');
+  let fullResult = calculateFullResult(rowResult);
 
   return {
     ...state,
-    [state[columnName]]: objToFill
-    // fullResult
+    [state[columnName]]: objToFill,
+    rowResult,
+    fullResult
   };
 }
 
-// function calculateAllResults(state, sumType) {
-//   const { rowResult } = state;
-//   let rowSum = 0;
+function calculateRowResult(state, sumType) {
+  let { rowResult } = state;
+  let rowSum = 0;
 
-//   singlePlayerColumnNamesArray.forEach(columnName => {
-//     let columnState = singlePlayerState[columnName];
-//     if (columnState[sumType] !== null) {
-//       rowSum += columnState[sumType];
-//     }
-//   });
+  singlePlayerColumnNamesArray.forEach(columnName => {
+    let columnState = singlePlayerState[columnName];
+    if (columnState[sumType] !== null) {
+      rowSum += columnState[sumType];
+    }
+  });
 
-//   rowResult[sumType] = rowSum;
-//   let fullResult = 0;
-//   for (let x in rowResult) {
-//     if (rowResult[x] !== null) {
-//       fullResult += rowResult[x];
-//     }
-//   }
+  return { ...rowResult, [sumType]: rowSum };
+}
 
-//   return fullResult;
-// }
+function calculateFullResult(rowResult) {
+  let fullResult = 0;
+
+  for (let x in rowResult) {
+    fullResult += rowResult[x];
+  }
+
+  return fullResult;
+}
 
 export default singlePlayerReducer;

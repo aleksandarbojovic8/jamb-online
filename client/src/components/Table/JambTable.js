@@ -12,7 +12,9 @@ export default function JambTable(props) {
   const { path } = props;
   const isMultiPlayer = path.includes('multiPlayer');
   const dispatch = useDispatch();
+  const singlePlayerState = useSelector(state => state.singlePlayer);
   const dicesState = useSelector(state => state.dices);
+  const { fullResult } = singlePlayerState;
   const { turnNumber } = dicesState;
 
   useEffect(() => {
@@ -22,60 +24,65 @@ export default function JambTable(props) {
   });
 
   return (
-    <div
-      className={`${styles.tableContainer} ${
-        isMultiPlayer ? styles.tableContainerMulti : styles.tableContainerSingle
-      }`}
-    >
-      <div className={styles.column}>
-        <NamesColumn />
-      </div>
-      <div className={styles.column}>
-        <span>&#8595;</span>
-        <ColumnTemplate columnName="topToBottom" />
-      </div>
-      <div className={styles.column}>
-        <span>&#8645;</span>
-        <ColumnTemplate columnName="fromTopAndBottom" />
-      </div>
-      <div className={styles.column}>
-        <span>&#x2191;</span>
-        <ColumnTemplate columnName="bottomToTop" />
-      </div>
-      {isMultiPlayer && (
+    <>
+      <div
+        className={`${styles.tableContainer} ${
+          isMultiPlayer
+            ? styles.tableContainerMulti
+            : styles.tableContainerSingle
+        }`}
+      >
         <div className={styles.column}>
-          <span>N</span>
+          <NamesColumn />
         </div>
-      )}
-      <div className={styles.column}>
-        <span>R</span>
-        <ColumnTemplate columnName="fromHand" />
-      </div>
-      {isMultiPlayer && (
         <div className={styles.column}>
-          <span>D</span>
+          <span>&#8595;</span>
+          <ColumnTemplate columnName="topToBottom" />
         </div>
-      )}
-      <div className={styles.column}>
-        <span>&#x2191;/&#8595;</span>
-        <ColumnTemplate columnName="fromMiddle" />
-      </div>
-      <div className={styles.column}>
-        <span>&#8595;/&#x2191;</span>
-        <ColumnTemplate columnName="toMiddle" />
-      </div>
-      {isMultiPlayer && (
         <div className={styles.column}>
-          <span>O</span>
+          <span>&#8645;</span>
+          <ColumnTemplate columnName="fromTopAndBottom" />
         </div>
-      )}
-      <div className={styles.column}>
-        <span>M</span>
-        <ColumnTemplate columnName="maxCol" />
+        <div className={styles.column}>
+          <span>&#x2191;</span>
+          <ColumnTemplate columnName="bottomToTop" />
+        </div>
+        {isMultiPlayer && (
+          <div className={styles.column}>
+            <span>N</span>
+          </div>
+        )}
+        <div className={styles.column}>
+          <span>R</span>
+          <ColumnTemplate columnName="fromHand" />
+        </div>
+        {isMultiPlayer && (
+          <div className={styles.column}>
+            <span>D</span>
+          </div>
+        )}
+        <div className={styles.column}>
+          <span>&#x2191;/&#8595;</span>
+          <ColumnTemplate columnName="fromMiddle" />
+        </div>
+        <div className={styles.column}>
+          <span>&#8595;/&#x2191;</span>
+          <ColumnTemplate columnName="toMiddle" />
+        </div>
+        {isMultiPlayer && (
+          <div className={styles.column}>
+            <span>O</span>
+          </div>
+        )}
+        <div className={styles.column}>
+          <span>M</span>
+          <ColumnTemplate columnName="maxCol" />
+        </div>
+        <div className={styles.column}>
+          <ResultColumn />
+        </div>
       </div>
-      <div className={styles.column}>
-        <ResultColumn />
-      </div>
-    </div>
+      <div>{fullResult}</div>
+    </>
   );
 }

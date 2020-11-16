@@ -4,11 +4,7 @@ import styles from './ResultColumn.module.css';
 
 export default function ResultColumn() {
   const singlePlayerState = useSelector(state => state.singlePlayer);
-  const {
-    fullUpperSum,
-    fullMiddleSum,
-    fullBottomSum
-  } = singlePlayerState.rowResult;
+  const { upperSum, middleSum, bottomSum } = singlePlayerState.rowResult;
 
   return (
     <>
@@ -19,16 +15,16 @@ export default function ResultColumn() {
       <div></div>
       <div></div>
       <div></div>
-      <div className={styles.resultDiv}>{fullUpperSum}</div>
+      <div className={styles.resultDiv}>{upperSum}</div>
       <div></div>
       <div></div>
-      <div className={styles.resultDiv}>{fullMiddleSum}</div>
+      <div className={styles.resultDiv}>{middleSum}</div>
       <div></div>
       <div></div>
       <div></div>
       <div></div>
       <div></div>
-      <div className={styles.resultDiv}>{fullBottomSum}</div>
+      <div className={styles.resultDiv}>{bottomSum}</div>
     </>
   );
 }
