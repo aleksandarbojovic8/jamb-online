@@ -1,19 +1,6 @@
+import { fieldsKeysArray } from '../../constants';
+
 export const findEnabledFields = (columnState, columnName, turnNumber) => {
-  const fieldsArray = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'max',
-    'min',
-    'kenta',
-    'triling',
-    'ful',
-    'poker',
-    'jamb'
-  ];
   const enabledFields = [];
 
   switch (columnName) {
@@ -44,7 +31,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
 
   function topToBottomFields() {
     let foundOne = false;
-    fieldsArray.forEach(fieldName => {
+    fieldsKeysArray.forEach(fieldName => {
       if (foundOne === false && columnState[fieldName] === null) {
         enabledFields.push(fieldName);
         foundOne = true;
@@ -53,7 +40,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
   }
 
   function fromTopAndBottomFields() {
-    fieldsArray.forEach(fieldName => {
+    fieldsKeysArray.forEach(fieldName => {
       if (columnState[fieldName] === null) {
         enabledFields.push(fieldName);
       }
@@ -62,7 +49,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
 
   function bottomToTopFields() {
     let foundOne = false;
-    fieldsArray
+    fieldsKeysArray
       .slice()
       .reverse()
       .forEach(fieldName => {
@@ -74,7 +61,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
   }
 
   function fromHandFields() {
-    fieldsArray.forEach(fieldName => {
+    fieldsKeysArray.forEach(fieldName => {
       if (columnState[fieldName] === null && turnNumber === 1) {
         enabledFields.push(fieldName);
       }
@@ -84,7 +71,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
   function fromMiddleFields() {
     let foundOne = false;
     let foundTwo = false;
-    fieldsArray
+    fieldsKeysArray
       .slice(0, 7)
       .reverse()
       .forEach(fieldName => {
@@ -94,7 +81,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
         }
       });
 
-    fieldsArray.slice(7).forEach(fieldName => {
+    fieldsKeysArray.slice(7).forEach(fieldName => {
       if (foundTwo === false && columnState[fieldName] === null) {
         enabledFields.push(fieldName);
         foundTwo = true;
@@ -105,14 +92,14 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
   function toMiddleFields() {
     let foundOne = false;
     let foundTwo = false;
-    fieldsArray.slice(0, 7).forEach(fieldName => {
+    fieldsKeysArray.slice(0, 7).forEach(fieldName => {
       if (foundOne === false && columnState[fieldName] === null) {
         enabledFields.push(fieldName);
         foundOne = true;
       }
     });
 
-    fieldsArray
+    fieldsKeysArray
       .slice(7)
       .reverse()
       .forEach(fieldName => {
@@ -124,7 +111,7 @@ export const findEnabledFields = (columnState, columnName, turnNumber) => {
   }
 
   function maxColFields() {
-    fieldsArray.forEach(fieldName => {
+    fieldsKeysArray.forEach(fieldName => {
       if (columnState[fieldName] === null) {
         enabledFields.push(fieldName);
       }

@@ -1,11 +1,9 @@
-const numbersObjHash = {
-  one: 1,
-  two: 2,
-  three: 3,
-  four: 4,
-  five: 5,
-  six: 6
-};
+import {
+  upperKeysArray,
+  middleKeysArray,
+  numbersObjHash,
+  maxResultsHash
+} from '../../constants';
 
 const createCountObj = dicesValue => {
   let countNumbersObj = {};
@@ -20,22 +18,6 @@ const createCountObj = dicesValue => {
 };
 
 const maxColValidatorFunc = (fieldName, valueToReturn) => {
-  const maxResultsHash = {
-    one: 5,
-    two: 10,
-    three: 15,
-    four: 20,
-    five: 25,
-    six: 30,
-    max: 30,
-    min: 5,
-    kenta: 66,
-    triling: 38,
-    ful: 58,
-    poker: 64,
-    jamb: 80
-  };
-
   return valueToReturn === maxResultsHash[fieldName];
 };
 
@@ -47,14 +29,7 @@ export const calculateFieldValue = (
 ) => {
   let valueToReturn = 0;
   ///////////////////////////////////////
-  if (
-    fieldName === 'one' ||
-    fieldName === 'two' ||
-    fieldName === 'three' ||
-    fieldName === 'four' ||
-    fieldName === 'five' ||
-    fieldName === 'six'
-  ) {
+  if (upperKeysArray.includes(fieldName)) {
     let countFiltered = dicesValue.filter(
       val => val === numbersObjHash[fieldName]
     );
@@ -62,7 +37,7 @@ export const calculateFieldValue = (
     valueToReturn = count * numbersObjHash[fieldName];
   }
   ///////////////////////////////////////
-  if (fieldName === 'max' || fieldName === 'min') {
+  if (middleKeysArray.includes(fieldName)) {
     let sortedValues = dicesValue.sort();
     let maxArr = sortedValues.filter((val, i) => i !== 0);
     let minArr = sortedValues.filter((val, i) => i !== 5);

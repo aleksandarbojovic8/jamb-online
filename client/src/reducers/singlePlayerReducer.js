@@ -4,51 +4,26 @@ import {
   FILL_MIDDLE_SUM,
   FILL_BOTTOM_SUM
 } from '../actions/types';
+import {
+  upperKeysArray,
+  middleKeysArray,
+  bottomKeysArray,
+  fieldKeysNullHash,
+  singlePlayerColumnNamesArray
+} from '../constants';
 
-const obj = {
-  one: null,
-  two: null,
-  three: null,
-  four: null,
-  five: null,
-  six: null,
-  upperSum: null,
-  max: null,
-  min: null,
-  middleSum: null,
-  kenta: null,
-  triling: null,
-  ful: null,
-  poker: null,
-  jamb: null,
-  bottomSum: null
-};
+const singlePlayerState = {};
 
-const singlePlayerState = {
-  topToBottom: {},
-  fromTopAndBottom: {},
-  bottomToTop: {},
-  //   annunciation: {},
-  fromHand: {},
-  //   alert: {},
-  fromMiddle: {},
-  toMiddle: {},
-  //   lastCol: {},
-  maxCol: {}
-};
+singlePlayerColumnNamesArray.forEach(columnName => {
+  return (singlePlayerState[columnName] = { ...fieldKeysNullHash });
+});
 
-for (let x in singlePlayerState) {
-  for (let y in obj) {
-    singlePlayerState[x][y] = obj[y];
-  }
-}
-
-singlePlayerState.results = {
+singlePlayerState.rowResult = {
   fullUpperSum: 0,
   fullMiddleSum: 0,
-  fullBottomSum: 0,
-  fullSum: 0
+  fullBottomSum: 0
 };
+singlePlayerState.fullResult = 0;
 
 const singlePlayerReducer = (state = singlePlayerState, action) => {
   switch (action.type) {
@@ -69,6 +44,7 @@ function fillFieldReducer(state, action) {
   let { fieldName, columnName, fieldValue } = action.payload;
   let objToFill = state[columnName];
   objToFill[fieldName] = fieldValue;
+
   return { ...state, [state[columnName]]: objToFill };
 }
 
@@ -78,9 +54,8 @@ function fillUpperSumReducer(state, action) {
 
   let upperSum = 0;
   let allExist = true;
-  let upperNames = ['one', 'two', 'three', 'four', 'five', 'six'];
 
-  upperNames.forEach(val => {
+  upperKeysArray.forEach(val => {
     upperSum += objToFill[val];
     if (objToFill[val] === null) {
       allExist = false;
@@ -92,17 +67,24 @@ function fillUpperSumReducer(state, action) {
   }
 
   objToFill['upperSum'] = upperSum;
-  return { ...state, [state[columnName]]: objToFill };
+
+  // let fullResult = calculateAllResults(state, 'fullUpperSum');
+
+  return {
+    ...state,
+    [state[columnName]]: objToFill
+    // fullResult
+  };
 }
 
 function fillMiddleSumReducer(state, action) {
   let { columnName } = action.payload;
+
   let objToFill = state[columnName];
   let middleSum = null;
   let allExist = true;
-  let middleNames = ['one', 'max', 'min'];
 
-  middleNames.forEach(val => {
+  ['one', ...middleKeysArray].forEach(val => {
     if (objToFill[val] === null) {
       allExist = false;
     }
@@ -111,25 +93,60 @@ function fillMiddleSumReducer(state, action) {
   if (allExist) {
     middleSum = (objToFill['max'] - objToFill['min']) * objToFill['one'];
   }
-
   objToFill['middleSum'] = middleSum;
-  return { ...state, [state[columnName]]: objToFill };
+
+  // let fullResult = calculateAllResults(state, 'fullMiddleSum');
+
+  return {
+    ...state,
+    [state[columnName]]: objToFill
+    // fullResult
+  };
 }
 
 function fillBottomSumReducer(state, action) {
   let { columnName } = action.payload;
+
   let objToFill = state[columnName];
   let bottomSum = 0;
-  let bottomNames = ['kenta', 'triling', 'ful', 'poker', 'jamb'];
 
-  bottomNames.forEach(val => {
+  bottomKeysArray.forEach(val => {
     if (objToFill[val] !== null) {
       bottomSum += objToFill[val];
     }
   });
 
   objToFill['bottomSum'] = bottomSum;
-  return { ...state, [state[columnName]]: objToFill };
+
+  // let fullResult = calculateAllResults(state, 'fullBottomSum');
+
+  return {
+    ...state,
+    [state[columnName]]: objToFill
+    // fullResult
+  };
 }
+
+// function calculateAllResults(state, sumType) {
+//   const { rowResult } = state;
+//   let rowSum = 0;
+
+//   singlePlayerColumnNamesArray.forEach(columnName => {
+//     let columnState = singlePlayerState[columnName];
+//     if (columnState[sumType] !== null) {
+//       rowSum += columnState[sumType];
+//     }
+//   });
+
+//   rowResult[sumType] = rowSum;
+//   let fullResult = 0;
+//   for (let x in rowResult) {
+//     if (rowResult[x] !== null) {
+//       fullResult += rowResult[x];
+//     }
+//   }
+
+//   return fullResult;
+// }
 
 export default singlePlayerReducer;

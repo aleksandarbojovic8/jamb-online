@@ -17,7 +17,7 @@ import {
   middleKeysArray,
   bottomKeysArray,
   sumKeysArray,
-  fieldsKeysArray
+  allFieldsKeysArray
 } from '../../constants';
 import styles from './ColumnTemplate.module.css';
 
@@ -71,7 +71,7 @@ export default function ColumnTemplate(props) {
 
   return (
     <>
-      {fieldsKeysArray.map(fieldName => {
+      {allFieldsKeysArray.map(fieldName => {
         let enabled = enabledFields.includes(fieldName);
         return (
           <div

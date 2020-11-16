@@ -8,8 +8,7 @@ export default function ResultColumn() {
     fullUpperSum,
     fullMiddleSum,
     fullBottomSum
-    // fullSum
-  } = singlePlayerState.results;
+  } = singlePlayerState.rowResult;
 
   return (
     <>
