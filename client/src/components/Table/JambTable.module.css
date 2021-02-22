@@ -1,19 +1,18 @@
-.tableContainer {
+.tableContainerSingle {
   width: 75vw;
   height: 75vh;
   display: grid;
+  grid-template-columns: 2fr repeat(7, 1fr) 2fr;
+  grid-template-rows: repeat(17, 1fr);
+  grid-auto-flow: column;
   border: 3px solid black;
 }
-.tableContainerSingle {
-  grid-template-columns: 2fr repeat(7, 1fr) 2fr;
-}
 .tableContainerMulti {
-  grid-template-columns: 2fr repeat(10, 1fr) 2fr;
-}
-.column {
+  width: 75vw;
+  height: 75vh;
   display: grid;
+  grid-template-columns: 2fr repeat(10, 1fr) 2fr;
   grid-template-rows: repeat(17, 1fr);
-  justify-items: center;
-  align-items: center;
-  border: 1px solid black;
+  grid-auto-flow: column;
+  border: 3px solid black;
 }

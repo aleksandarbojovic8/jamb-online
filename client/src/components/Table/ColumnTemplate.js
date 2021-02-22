@@ -21,8 +21,7 @@ import {
 } from '../../constants';
 import styles from './ColumnTemplate.module.css';
 
-export default function ColumnTemplate(props) {
-  const { columnName } = props;
+export default function ColumnTemplate({ columnName }) {
   const dispatch = useDispatch();
   const singlePlayerState = useSelector(state => state.singlePlayer);
   const dicesState = useSelector(state => state.dices);
@@ -62,6 +61,36 @@ export default function ColumnTemplate(props) {
     }
   };
 
+  const renderIcon = () => {
+    let icon = null;
+    switch (columnName) {
+      case 'topToBottom':
+        icon = <span>&#8595;</span>;
+        break;
+      case 'fromTopAndBottom':
+        icon = <span>&#8645;</span>;
+        break;
+      case 'bottomToTop':
+        icon = <span>&#x2191;</span>;
+        break;
+      case 'fromHand':
+        icon = <span>R</span>;
+        break;
+      case 'fromMiddle':
+        icon = <span>&#x2191;/&#8595;</span>;
+        break;
+      case 'toMiddle':
+        icon = <span>&#8595;/&#x2191;</span>;
+        break;
+      case 'maxCol':
+        icon = <span>M</span>;
+        break;
+      default:
+        icon = <span></span>;
+    }
+    return icon;
+  };
+
   const label = fieldName => {
     if (sumKeysArray.includes(fieldName)) {
       return columnState[fieldName] !== null ? columnState[fieldName] : 0;
@@ -71,6 +100,7 @@ export default function ColumnTemplate(props) {
 
   return (
     <>
+      {renderIcon()}
       {allFieldsKeysArray.map(fieldName => {
         let enabled = enabledFields.includes(fieldName);
         return (
